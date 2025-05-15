@@ -6,6 +6,7 @@ const passport = require('passport');
 const session = require('express-session');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 // Passport config
 require('./config/passport');
@@ -39,6 +40,7 @@ app.use(passport.session());
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 // Basic route for testing
 app.get('/', (req, res) => {

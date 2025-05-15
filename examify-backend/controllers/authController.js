@@ -165,16 +165,16 @@ exports.resetPassword = async (req, res) => {
   }
 };
 
-// @desc    Google OAuth
-// @route   GET /api/auth/google
-// @access  Public
+ //@desc    Google OAuth
+ //@route   GET /api/auth/google
+ //@access  Public
 const googleAuth = passport.authenticate('google', {
   scope: ['profile', 'email']
 });
 
-// @desc    Google OAuth callback
+ //@desc    Google OAuth callback
 // @route   GET /api/auth/google/callback
-// @access  Public
+ //@access  Public
 const googleCallback = (req, res) => {
   try {
     const token = generateToken(req.user._id);

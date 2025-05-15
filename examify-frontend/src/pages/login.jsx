@@ -17,7 +17,7 @@ function Login() {
   const location = useLocation();
   const [role, setRole] = useState('');
   const [formData, setFormData] = useState({
-    email: '',
+    emailOrUsername: '',
     password: '',
   });
   const [error, setError] = useState('');
@@ -39,7 +39,11 @@ function Login() {
     setLoading(true);
   
     try {
-      const response = await loginUser({ ...formData, userType: role });
+      const response = await loginUser({ 
+        emailOrUsername: formData.emailOrUsername,
+        password: formData.password, 
+        userType: role 
+      });
   
       if (response?.user?.userType) {
         const userType = response.user.userType;
@@ -55,7 +59,7 @@ function Login() {
         setError('Unexpected response from server. Please try again.');
       }
     } catch (err) {
-      setError(err.message || 'Invalid email or password');
+      setError(err.message || 'Invalid username/email or password');
     } finally {
       setLoading(false);
     }
@@ -80,10 +84,11 @@ function Login() {
     <div className="min-h-screen relative">
     {/* Background Image */}
     <div 
-      className="fixed inset-0 bg-cover bg-center bg-no-repeat"
+      className="fixed inset-0 bg-cover bg-center bg-no-repeat "
       style={{ 
         backgroundImage: "url('/register.png')",
         zIndex: -1
+        
       }}
     />
     <div className="min-h-screen flex items-start justify-center">
@@ -100,27 +105,28 @@ function Login() {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1 text-left ">Email</label>
+            <label className="block text-sm font-medium mb-1 text-left">Username or Email</label>
             <input
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              type="text"
+              value={formData.emailOrUsername}
+              onChange={(e) => setFormData({ ...formData, emailOrUsername: e.target.value })}
               className="w-full p-2 border border-gray-300 rounded-md"
               required
+              placeholder="Enter your username or email"
             />
           </div>
 
           <div>
-          
-          <label className="block text-sm font-medium mb-1 text-left">Password</label>
+            <label className="block text-sm font-medium mb-1 text-left">Password</label>
             <input
               type="password"
               value={formData.password}
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               className="w-full p-2 border border-gray-300 rounded-md"
               required
+              placeholder="Enter your password"
             />
-         <div className="flex justify-end items-center mt-1">
+            <div className="flex justify-end items-center mt-1">
               <Link 
                 to="/forgot-password"
                 className="text-sm text-green-600 hover:text-green-700 mb-1 text-right"

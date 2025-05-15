@@ -49,14 +49,46 @@ export const registerUser = async (userData) => {
 
 export const loginUser = async (userData) => {
   try {
-    const response = await api.post('/auth/login', userData);
+    // Check for admin login first
+    if (userData.userType === 'admin') {
+      // Allow both username and email for admin
+      if ((userData.emailOrUsername === 'Monakhalil' || userData.emailOrUsername === 'monakhalil@examify.com') 
+          && userData.password === 'examify') {
+        const adminData = {
+          token: 'admin-token',
+          user: {
+            id: 1,
+            name: 'Mona Khalil',
+            email: 'monakhalil@examify.com',
+            userType: 'admin',
+            contact: '+92 300 1234567'
+          }
+        };
+        localStorage.setItem('token', adminData.token);
+        localStorage.setItem('user', JSON.stringify(adminData));
+        return adminData;
+      } else {
+        throw new Error('Invalid admin credentials');
+      }
+    }
+
+    // For other user types, proceed with API call
+    // Transform the emailOrUsername to match the backend expectation
+    const loginPayload = {
+      ...userData,
+      email: userData.emailOrUsername, // Backend still expects 'email' field
+      username: userData.emailOrUsername // Add username field for backend to check both
+    };
+    delete loginPayload.emailOrUsername; // Remove the combined field
+
+    const response = await api.post('/auth/login', loginPayload);
     if (response.data.token) {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data));
     }
     return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || 'Login failed');
+    throw new Error(error.response?.data?.message || error.message || 'Login failed');
   }
 };
 
@@ -99,4 +131,41 @@ export const resetPassword = async (token, password) => {
 export const logoutUser = () => {
   localStorage.removeItem('token');
   localStorage.removeItem('user');
+};
+
+// User Management API Functions
+export const getAllUsers = async () => {
+  try {
+    const response = await api.get('/api/users');
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || error.message || 'Failed to fetch users');
+  }
+};
+
+export const updateUserRole = async (userId, newRole) => {
+  try {
+    const response = await api.put(`/api/users/${userId}/role`, { role: newRole });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || error.message || 'Failed to update user role');
+  }
+};
+
+export const toggleUserStatus = async (userId) => {
+  try {
+    const response = await api.put(`/api/users/${userId}/toggle-status`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || error.message || 'Failed to toggle user status');
+  }
+};
+
+export const getUserDetails = async (userId) => {
+  try {
+    const response = await api.get(`/api/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || error.message || 'Failed to fetch user details');
+  }
 }; 

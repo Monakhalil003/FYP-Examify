@@ -22,19 +22,19 @@ const LoginSelection = () => {
           <div className="space-y-3">
             <Link 
               to="/login?role=examiner" 
-              className="block w-full bg-green-500 text-white py-3 px-4 rounded-md text-base font-medium hover:bg-green-600 transition duration-300 text-center shadow-md hover:shadow-lg"
+              className="block w-full bg-white text-black py-3 px-4 rounded-md text-base font-medium hover:bg-green-500 transition duration-300 text-center shadow-md hover:shadow-lg border border-black"
             >
               Login as Examiner
             </Link>
             <Link 
               to="/login?role=examinee" 
-              className="block w-full bg-blue-500 text-white py-3 px-4 rounded-md text-base font-medium hover:bg-blue-600 transition duration-300 text-center shadow-md hover:shadow-lg"
+              className="block w-full bg-white text-black py-3 px-4 rounded-md text-base font-medium hover:bg-green-500 transition duration-300 text-center shadow-md hover:shadow-lg border border-black"
             >
               Login as Examinee
             </Link>
             <Link 
               to="/login?role=admin" 
-              className="block w-full bg-purple-500 text-white py-3 px-4 rounded-md text-base font-medium hover:bg-purple-600 transition duration-300 text-center shadow-md hover:shadow-lg"
+              className="block w-full bg-white text-black py-3 px-4 rounded-md text-base font-medium hover:bg-green-500 transition duration-300 text-center shadow-md hover:shadow-lg border border-black"
             >
               Login as Admin
             </Link>

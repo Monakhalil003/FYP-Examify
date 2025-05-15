@@ -6,6 +6,7 @@ import RegisterExaminee from './registerexaminee';
 import Login from './login';
 import LoginSelection from './LoginSelection';
 import ForgotPassword from './forgot-password';
+import AdminDashboard from './AdminDashboard';
 import './App.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path="/registerexaminer" element={<RegisterExaminer />} />
         <Route path="/registerexaminee" element={<RegisterExaminee />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
       </Routes>
     </Router>
   );
